@@ -13,6 +13,8 @@ int	init_philos(t_context *c)
 		c->philos[i].id = i + 1;
 		c->philos[i].eat_count = 0;
 		c->philos[i].context = c;
+		c->philos[i].last_eat_date = 0;
+		c->philos[i].is_alive = 1;
 	}
 	return (EXIT_SUCCESS);
 }
@@ -60,12 +62,16 @@ int	init_context(t_context *c, int argc, char **argv)
 	if (error)
 		free(c->philos);
 	error = get_now_time(&(c->start));
-	printf("start: %llu\n", c->start);
 	return (error);
 }
 
 void	free_context(t_context *c)
 {
+	int	i;
+
 	free(c->philos);
+	i = -1;
+	while (++i < c->no_philo)
+		pthread_mutex_destroy(c->mutexes + i);
 	free(c->mutexes);
 }

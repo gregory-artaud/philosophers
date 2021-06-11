@@ -6,7 +6,7 @@
 /*   By: gartaud <gartaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 10:14:29 by gartaud           #+#    #+#             */
-/*   Updated: 2021/06/11 17:07:41 by gartaud          ###   ########lyon.fr   */
+/*   Updated: 2021/06/11 17:51:13 by gartaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,12 @@ void	print_context(t_context *c)
 
 void	*routine(void *arg)
 {
-	t_philo	*p;
+	t_philo		*p;
+	uint64_t	t;
 
 	p = (t_philo *)arg;
-	printf("Hello I'm philo %d !\n", p->id);
+	get_now_time(&t);
+	printf("%llu %d is born !\n", t - p->context->start, p->id);
 	return (NULL);
 }
 
@@ -48,11 +50,9 @@ int	main(int argc, char **argv)
 	t_context	context;
 	int			error;
 
-
 	error = init_context(&context, argc, argv);
 	if (error)
 		return (error);
-	//print_context(&context);
 	launch_philos(&context);
 	free_context(&context);
 	return (EXIT_SUCCESS);
