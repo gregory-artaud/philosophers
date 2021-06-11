@@ -6,7 +6,7 @@
 /*   By: gartaud <gartaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 10:14:29 by gartaud           #+#    #+#             */
-/*   Updated: 2021/06/11 17:51:13 by gartaud          ###   ########lyon.fr   */
+/*   Updated: 2021/06/11 18:23:25 by gartaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,9 @@ void	*routine(void *arg)
 	uint64_t	t;
 
 	p = (t_philo *)arg;
-	get_now_time(&t);
-	printf("%llu %d is born !\n", t - p->context->start, p->id);
+	get_absolute_time(&(p->start));
+	get_relative_time(&t, p->start);
+	printf("%llu %d is born !\n", t, p->id);
 	return (NULL);
 }
 

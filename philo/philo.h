@@ -6,7 +6,7 @@
 /*   By: gartaud <gartaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 10:13:35 by gartaud           #+#    #+#             */
-/*   Updated: 2021/06/11 17:51:23 by gartaud          ###   ########lyon.fr   */
+/*   Updated: 2021/06/11 18:17:48 by gartaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct s_philo
 	int					eat_count;
 	pthread_t			th;
 	uint64_t			last_eat_date;
+	uint64_t			start;
 	struct s_context	*context;
 }						t_philo;
 
@@ -39,7 +40,6 @@ typedef struct s_context
 	int				max_eat;
 	pthread_mutex_t	*mutexes;
 	t_philo			*philos;
-	uint64_t		start;
 }					t_context;
 
 /*
@@ -51,5 +51,6 @@ int		ft_atoi(const char *s);
 */
 int		init_context(t_context *c, int argc, char **argv);
 void	free_context(t_context *c);
-int		get_now_time(uint64_t *t);
+int		get_absolute_time(uint64_t *t);
+int		get_relative_time(uint64_t *t, uint64_t reference);
 #endif
