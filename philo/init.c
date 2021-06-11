@@ -42,7 +42,7 @@ int	process_argv(t_context *c, int argc, char **argv)
 	c->time_to_die = ft_atoi(argv[2]);
 	c->time_to_eat = ft_atoi(argv[3]);
 	c->time_to_sleep = ft_atoi(argv[4]);
-	c->max_eat = -1;
+	c->max_eat = INT32_MAX;
 	if (argc == 6)
 		c->max_eat = ft_atoi(argv[5]);
 	return (EXIT_SUCCESS);

@@ -6,7 +6,7 @@
 /*   By: gartaud <gartaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 10:13:35 by gartaud           #+#    #+#             */
-/*   Updated: 2021/06/11 18:30:23 by gartaud          ###   ########lyon.fr   */
+/*   Updated: 2021/06/11 18:54:48 by gartaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,16 @@ int		init_context(t_context *c, int argc, char **argv);
 void	free_context(t_context *c);
 int		get_absolute_time(uint64_t *t);
 int		get_relative_time(uint64_t *t, uint64_t reference);
+/*
+** is_finished
+*/
+int		is_finished(t_context *c);
+/*
+** actions
+*/
+int		p_die(t_philo *p);
+int		p_eat(t_philo *p);
+int		p_sleep(t_philo *p);
+int		p_think(t_philo *p);
+
 #endif

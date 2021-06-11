@@ -6,7 +6,7 @@
 /*   By: gartaud <gartaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 10:14:29 by gartaud           #+#    #+#             */
-/*   Updated: 2021/06/11 18:32:22 by gartaud          ###   ########lyon.fr   */
+/*   Updated: 2021/06/11 18:56:22 by gartaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,30 @@ void	*routine(void *arg)
 {
 	t_philo		*p;
 	uint64_t	t;
+	int			error;
 
 	p = (t_philo *)arg;
+	if (is_finished(p->context))
+		return (NULL);
 	get_relative_time(&t, p->context->start);
 	printf("%llu %d is born !\n", t, p->id);
+	while (1)
+	{
+		if (p->id == 53)
+		{
+			p_die(p);
+			return (NULL);
+		}
+		error = p_eat(p);
+		if (error)
+			return (NULL);
+		error = p_sleep(p);
+		if (error)
+			return (NULL);
+		error = p_think(p);
+		if (error)
+			return (NULL);
+	}
 	return (NULL);
 }
 
