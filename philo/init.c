@@ -3,9 +3,7 @@
 int	init_philos(t_context *c)
 {
 	int	i;
-	int	error;
 
-	error = 0;
 	c->philos = malloc(sizeof(t_philo) * c->no_philo);
 	if (!c->philos)
 		return (EXIT_FAILURE);
@@ -17,9 +15,6 @@ int	init_philos(t_context *c)
 		c->philos[i].context = c;
 		c->philos[i].last_eat_date = 0;
 		c->philos[i].is_alive = 1;
-		error = get_absolute_time(&(c->philos[i].start));
-		if (error)
-			return (error);
 	}
 	return (EXIT_SUCCESS);
 }
@@ -66,6 +61,7 @@ int	init_context(t_context *c, int argc, char **argv)
 	error = init_mutexes(c);
 	if (error)
 		free(c->philos);
+	error = get_absolute_time(&(c->start));
 	return (error);
 }
 
