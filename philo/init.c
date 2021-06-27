@@ -10,25 +10,26 @@ int	init_philos(t_context *c)
 	i = -1;
 	while (++i < c->no_philo)
 	{
-		c->philos[i].id = i + 1;
+		c->philos[i].id = i;
 		c->philos[i].eat_count = 0;
 		c->philos[i].context = c;
-		c->philos[i].last_eat_date = 0;
-		c->philos[i].is_alive = 1;
+		c->philos[i].last_eat = 0;
+		c->philos[i].lfork = i;
+		c->philos[i].rfork = (i + 1) % c->no_philo;
 	}
 	return (EXIT_SUCCESS);
 }
 
-int	init_mutexes(t_context *c)
+int	init_forks(t_context *c)
 {
 	int	i;
 
-	c->mutexes = malloc(sizeof(pthread_mutex_t) * c->no_philo);
-	if (!c->mutexes)
+	c->forks = malloc(sizeof(pthread_mutex_t) * c->no_philo);
+	if (!c->forks)
 		return (EXIT_FAILURE);
 	i = -1;
 	while (++i < c->no_philo)
-		pthread_mutex_init(c->mutexes + i, NULL);
+		pthread_mutex_init(c->forks + i, NULL);
 	return (EXIT_SUCCESS);
 }
 
@@ -58,10 +59,12 @@ int	init_context(t_context *c, int argc, char **argv)
 	error = init_philos(c);
 	if (error)
 		return (error);
-	error = init_mutexes(c);
+	error = init_forks(c);
 	if (error)
 		free(c->philos);
-	error = get_absolute_time(&(c->start));
+	pthread_mutex_init(&(c->write_m), NULL);
+	pthread_mutex_init(&(c->somebody_died), NULL);
+	c->start = 0;
 	return (error);
 }
 
@@ -72,6 +75,11 @@ void	free_context(t_context *c)
 	free(c->philos);
 	i = -1;
 	while (++i < c->no_philo)
-		pthread_mutex_destroy(c->mutexes + i);
-	free(c->mutexes);
+	{
+		pthread_mutex_destroy(c->forks + i);
+		pthread_mutex_destroy(&(c->philos[i].mutex));
+	}
+	pthread_mutex_destroy(&(c->write_m));
+	pthread_mutex_destroy(&(c->somebody_died));
+	free(c->forks);
 }

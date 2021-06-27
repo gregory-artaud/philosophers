@@ -2,7 +2,7 @@
 
 int	p_sleep(t_philo *p)
 {
-	if (is_finished(p->context))
-		return (EXIT_FAILURE);
+	put_log(p, SLEEP);
+	usleep(p->context->time_to_sleep * 1000);
 	return (EXIT_SUCCESS);
 }
