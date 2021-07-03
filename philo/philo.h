@@ -6,7 +6,7 @@
 /*   By: gartaud <gartaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 10:13:35 by gartaud           #+#    #+#             */
-/*   Updated: 2021/06/27 15:35:39 by gartaud          ###   ########lyon.fr   */
+/*   Updated: 2021/07/03 20:51:32 by gartaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ enum e_actions
 	DIE,
 	TAKE_FORK,
 	SLEEP,
-	THINK
+	THINK,
+	MAX_EAT
 };
 
 typedef struct s_philo

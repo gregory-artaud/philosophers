@@ -16,6 +16,7 @@ int	init_philos(t_context *c)
 		c->philos[i].last_eat = 0;
 		c->philos[i].lfork = i;
 		c->philos[i].rfork = (i + 1) % c->no_philo;
+		pthread_mutex_init(&(c->philos[i].mutex), NULL);
 	}
 	return (EXIT_SUCCESS);
 }

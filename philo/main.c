@@ -6,7 +6,7 @@
 /*   By: gartaud <gartaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 10:14:29 by gartaud           #+#    #+#             */
-/*   Updated: 2021/06/27 19:23:31 by gartaud          ###   ########lyon.fr   */
+/*   Updated: 2021/07/03 20:52:02 by gartaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,16 @@ void	*monitor(void *arg)
 {
 	t_philo		*p;
 	uint64_t	t;
-	int			cond;
+	int			death;
 
 	p = (t_philo *)arg;
 	while (1)
 	{
 		pthread_mutex_lock(&p->mutex);
 		t = get_simulation_time(p->context->start);
-		cond = (!p->is_eating &&
+		death = (!p->is_eating &&
 			t - p->last_eat > (uint64_t)p->context->time_to_die);
-		if (cond)
+		if (death)
 		{
 			put_log(p, DIE);
 			pthread_mutex_unlock(&p->mutex);
@@ -90,7 +90,7 @@ int	main(int argc, char **argv)
 		return (error);
 	launch_threads(&context);
 	pthread_mutex_lock(&(context.somebody_died));
-	pthread_mutex_unlock(&(context.somebody_died));
+	pthread_mutex_lock(&(context.somebody_died));
 	free_context(&context);
 	return (EXIT_SUCCESS);
 }
