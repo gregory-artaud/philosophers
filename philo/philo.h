@@ -6,7 +6,7 @@
 /*   By: gartaud <gartaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 10:13:35 by gartaud           #+#    #+#             */
-/*   Updated: 2021/07/03 20:51:32 by gartaud          ###   ########lyon.fr   */
+/*   Updated: 2021/07/03 21:21:13 by gartaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_philo
 	uint64_t			last_eat;
 	struct s_context	*context;
 	pthread_mutex_t		mutex;
+	pthread_mutex_t		eat_end;
 }						t_philo;
 
 typedef struct s_context

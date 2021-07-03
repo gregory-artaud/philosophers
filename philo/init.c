@@ -17,6 +17,7 @@ int	init_philos(t_context *c)
 		c->philos[i].lfork = i;
 		c->philos[i].rfork = (i + 1) % c->no_philo;
 		pthread_mutex_init(&(c->philos[i].mutex), NULL);
+		pthread_mutex_init(&(c->philos[i].eat_end), NULL);
 	}
 	return (EXIT_SUCCESS);
 }
@@ -44,7 +45,7 @@ int	process_argv(t_context *c, int argc, char **argv)
 	c->time_to_die = ft_atoi(argv[2]);
 	c->time_to_eat = ft_atoi(argv[3]);
 	c->time_to_sleep = ft_atoi(argv[4]);
-	c->max_eat = INT32_MAX;
+	c->max_eat = -1;
 	if (argc == 6)
 		c->max_eat = ft_atoi(argv[5]);
 	return (EXIT_SUCCESS);

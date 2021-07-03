@@ -6,21 +6,11 @@
 /*   By: gartaud <gartaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 10:14:29 by gartaud           #+#    #+#             */
-/*   Updated: 2021/07/03 20:52:02 by gartaud          ###   ########lyon.fr   */
+/*   Updated: 2021/07/03 21:36:37 by gartaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-void	print_context(t_context *c)
-{
-	printf("context:\n");
-	printf("\tno_philo: %d\n", c->no_philo);
-	printf("\ttime_to_die: %ld\n", c->time_to_die);
-	printf("\ttime_to_eat: %ld\n", c->time_to_eat);
-	printf("\ttime_to_sleep: %ld\n", c->time_to_sleep);
-	printf("\tmax_eat: %d\n", c->max_eat);
-}
 
 void	*monitor(void *arg)
 {
@@ -65,12 +55,36 @@ void	*routine(void *arg)
 	return (NULL);
 }
 
+void	*check_max_eat(void *context)
+{
+	t_context	*c;
+	int			i;
+	int			j;
+
+	c = (t_context *)context;
+	i = -1;
+	while (++i <= c->max_eat)
+	{
+		j = -1;
+		while (++j < c->no_philo)
+			pthread_mutex_lock(&(c->philos[j].eat_end));
+	}
+	put_log(c->philos, MAX_EAT);
+	pthread_mutex_unlock(&(c->somebody_died));
+	return (NULL);
+}
 
 void	launch_threads(t_context *c)
 {
 	int			i;
+	pthread_t	count_th;
 
 	get_absolute_time(&(c->start));
+	if (c->max_eat != -1)
+	{
+		pthread_create(&count_th, NULL, &check_max_eat, c);
+		pthread_detach(count_th);
+	}
 	i = -1;
 	while (++i < c->no_philo)
 	{

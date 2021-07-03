@@ -16,5 +16,7 @@ void	put_log(t_philo *p, int type)
 		printf("%lu %d is sleeping\n", t, p->id + 1);
 	else if (type == THINK)
 		printf("%lu %d is thinking\n", t, p->id + 1);
+	else if (type == MAX_EAT)
+		printf("%lu everyone has eaten enough\n", t);
 	pthread_mutex_unlock(&(p->context->write_m));
 }

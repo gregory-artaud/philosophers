@@ -25,6 +25,7 @@ int	p_eat(t_philo *p)
 	(p->eat_count)++;
 	p->is_eating = 0;
 	pthread_mutex_unlock(&p->mutex);
+	pthread_mutex_unlock(&p->eat_end);
 	drop_forks(p);
 	return (EXIT_SUCCESS);
 }
