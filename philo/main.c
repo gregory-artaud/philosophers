@@ -6,7 +6,7 @@
 /*   By: gartaud <gartaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 10:14:29 by gartaud           #+#    #+#             */
-/*   Updated: 2021/07/03 21:36:37 by gartaud          ###   ########lyon.fr   */
+/*   Updated: 2021/09/16 13:46:40 by gartaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,20 @@ void	*monitor(void *arg)
 	int			death;
 
 	p = (t_philo *)arg;
-	while (1)
+	while (!is_somebody_dead(p->context))
 	{
 		pthread_mutex_lock(&p->mutex);
-		t = get_simulation_time(p->context->start);
-		death = (!p->is_eating &&
-			t - p->last_eat > (uint64_t)p->context->time_to_die);
+		t = get_absolute_time() - p->context->start;
+		death = (!p->is_eating
+				&& t - p->last_eat > (uint64_t)p->context->time_to_die);
 		if (death)
 		{
 			put_log(p, DIE);
+			set_death(p, 1);
 			pthread_mutex_unlock(&p->mutex);
-			pthread_mutex_unlock(&p->context->somebody_died);
 			return (NULL);
 		}
 		pthread_mutex_unlock(&p->mutex);
-		usleep(1000);
 	}
 	return (NULL);
 }
@@ -44,54 +43,58 @@ void	*routine(void *arg)
 	pthread_t	monitor_th;
 
 	p = (t_philo *)arg;
+	if (!(p->id % 2))
+		ft_usleep(p->context->time_to_eat / 10);
 	pthread_create(&monitor_th, NULL, monitor, arg);
-	pthread_detach(monitor_th);
-	while (1)
+	while (1) 
 	{
-		p_eat(p);
+		if (p_eat(p))
+			break ;
 		p_sleep(p);
 		put_log(p, THINK);
 	}
+	pthread_join(monitor_th, NULL);
 	return (NULL);
 }
 
-void	*check_max_eat(void *context)
+void	*eat_monitor(void *context)
 {
 	t_context	*c;
 	int			i;
-	int			j;
 
 	c = (t_context *)context;
-	i = -1;
-	while (++i <= c->max_eat)
+	while (!is_somebody_dead(c))
 	{
-		j = -1;
-		while (++j < c->no_philo)
-			pthread_mutex_lock(&(c->philos[j].eat_end));
+		i = -1;
+		while (++i < c->no_philo)
+			if (get_eat(c->philos + i) == c->max_eat)
+			{
+				put_log(c->philos + i, MAX_EAT);
+				set_death(c->philos + i, 1);
+				return (NULL);
+			}
 	}
-	put_log(c->philos, MAX_EAT);
-	pthread_mutex_unlock(&(c->somebody_died));
 	return (NULL);
 }
 
-void	launch_threads(t_context *c)
+void	launch_threads(void *context)
 {
 	int			i;
-	pthread_t	count_th;
+	t_context	*c;
+	pthread_t	eat_th;
 
-	get_absolute_time(&(c->start));
+	c = (t_context *)context;
+	c->start = get_absolute_time();
 	if (c->max_eat != -1)
-	{
-		pthread_create(&count_th, NULL, &check_max_eat, c);
-		pthread_detach(count_th);
-	}
+		pthread_create(&eat_th, NULL, &eat_monitor, c);
 	i = -1;
 	while (++i < c->no_philo)
-	{
 		pthread_create(&(c->philos[i].th), NULL, &routine, c->philos + i);
-		pthread_detach(c->philos[i].th);
-		usleep(100);
-	}
+	i = -1;
+	if (c->max_eat != -1)
+		pthread_join(c->philos[i].th, NULL);
+	while (++i < c->no_philo)
+		pthread_join(c->philos[i].th, NULL);
 }
 
 int	main(int argc, char **argv)
@@ -103,8 +106,6 @@ int	main(int argc, char **argv)
 	if (error)
 		return (error);
 	launch_threads(&context);
-	pthread_mutex_lock(&(context.somebody_died));
-	pthread_mutex_lock(&(context.somebody_died));
 	free_context(&context);
 	return (EXIT_SUCCESS);
 }

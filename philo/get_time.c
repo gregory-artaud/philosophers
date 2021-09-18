@@ -1,17 +1,14 @@
 #include "philo.h"
 
-int	get_absolute_time(uint64_t *t)
+long int	get_absolute_time(void)
 {
-	int				error;
 	struct timeval	time;
 
-	error = gettimeofday(&time, NULL);
-	if (error)
-		return (error);
-	*t = time.tv_sec * 1000 + time.tv_usec / 1000;
-	return (EXIT_SUCCESS);
+	gettimeofday(&time, NULL);
+	return (time.tv_sec * 1000 + time.tv_usec / 1000);
 }
 
+/*
 int		get_relative_time(uint64_t *t, uint64_t reference)
 {
 	int			error;
@@ -37,3 +34,4 @@ uint64_t	get_simulation_time(uint64_t reference)
 	get_relative_time(&t, reference);
 	return (t);
 }
+*/

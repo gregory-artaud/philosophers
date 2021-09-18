@@ -11,6 +11,16 @@ int	ft_isdigit(char c)
 	return (c >= '0' && c <= '9');
 }
 
+int	ft_is_number(char *s)
+{
+	if (!s)
+		return (0);
+	while (*s)
+		if (!ft_isdigit(*(s++)))
+			return (0);
+	return (1);
+}
+
 int	ft_atoi(const char *s)
 {
 	unsigned int	i;

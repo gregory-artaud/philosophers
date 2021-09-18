@@ -6,7 +6,7 @@
 /*   By: gartaud <gartaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 10:13:35 by gartaud           #+#    #+#             */
-/*   Updated: 2021/07/03 21:21:13 by gartaud          ###   ########lyon.fr   */
+/*   Updated: 2021/09/16 13:41:35 by gartaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 
 # define INT32_MAX INT_MAX
 
-typedef u_int64_t uint64_t;
+typedef u_int64_t	uint64_t;
 
 enum e_actions
 {
@@ -31,6 +31,7 @@ enum e_actions
 	TAKE_FORK,
 	SLEEP,
 	THINK,
+	DROP,
 	MAX_EAT
 };
 
@@ -41,11 +42,13 @@ typedef struct s_philo
 	int					eat_count;
 	int					lfork;
 	int					rfork;
+	int					is_dead;
 	pthread_t			th;
 	uint64_t			last_eat;
 	struct s_context	*context;
 	pthread_mutex_t		mutex;
-	pthread_mutex_t		eat_end;
+	pthread_mutex_t		death_m;
+	pthread_mutex_t		eat_m;
 }						t_philo;
 
 typedef struct s_context
@@ -59,21 +62,19 @@ typedef struct s_context
 	t_philo			*philos;
 	uint64_t		start;
 	pthread_mutex_t	write_m;
-	pthread_mutex_t	somebody_died;
 }					t_context;
 
 /*
 ** lib
 */
 int			ft_atoi(const char *s);
+int			ft_is_number(char *s);
 /*
 ** init
 */
 int			init_context(t_context *c, int argc, char **argv);
 void		free_context(t_context *c);
-int			get_absolute_time(uint64_t *t);
-int			get_relative_time(uint64_t *t, uint64_t reference);
-uint64_t	get_simulation_time(uint64_t reference);
+long int	get_absolute_time(void);
 /*
 ** is_finished
 */
@@ -88,4 +89,19 @@ int			p_sleep(t_philo *p);
 ** put_log
 */
 void		put_log(t_philo *p, int type);
+/*
+** ft_usleep
+*/
+void		ft_usleep(long int time_in_ms);
+/*
+** is_somebody_dead
+*/
+int			is_somebody_dead(t_context *c);
+/*
+** accessors
+*/
+void		set_death(t_philo *p, int value);
+int			get_death(t_philo *p);
+void		add_eat(t_philo *p);
+int			get_eat(t_philo *p);
 #endif
