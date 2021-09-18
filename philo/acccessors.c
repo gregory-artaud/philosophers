@@ -9,7 +9,7 @@ void	set_death(t_philo *p, int value)
 
 int		get_death(t_philo *p)
 {
-	int	res
+	int	res;
 
 	pthread_mutex_lock(&p->death_m);
 	res = p->is_dead;
