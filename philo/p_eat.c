@@ -4,7 +4,7 @@ int	take_forks(t_philo *p)
 {
 	pthread_mutex_lock(p->context->forks + p->lfork);
 	put_log(p, TAKE_FORK);
-	if(p->context->no_philo == 1)
+	if (p->context->no_philo == 1)
 	{
 		pthread_mutex_unlock(p->context->forks + p->lfork);
 		return (1);

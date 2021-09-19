@@ -6,7 +6,7 @@
 /*   By: gartaud <gartaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 10:14:29 by gartaud           #+#    #+#             */
-/*   Updated: 2021/09/16 13:46:40 by gartaud          ###   ########lyon.fr   */
+/*   Updated: 2021/09/19 16:52:57 by gartaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	*routine(void *arg)
 	if (!(p->id % 2))
 		ft_usleep(p->context->time_to_eat / 10);
 	pthread_create(&monitor_th, NULL, monitor, arg);
-	while (1) 
+	while (1)
 	{
 		if (p_eat(p))
 			break ;
@@ -61,18 +61,22 @@ void	*eat_monitor(void *context)
 {
 	t_context	*c;
 	int			i;
+	int			tmp;
 
 	c = (t_context *)context;
 	while (!is_somebody_dead(c))
 	{
 		i = -1;
 		while (++i < c->no_philo)
-			if (get_eat(c->philos + i) == c->max_eat)
+		{
+			tmp = get_eat(c->philos + i);
+			if (tmp == c->max_eat)
 			{
 				put_log(c->philos + i, MAX_EAT);
 				set_death(c->philos + i, 1);
 				return (NULL);
 			}
+		}
 	}
 	return (NULL);
 }

@@ -59,9 +59,9 @@ int	process_argv(t_context *c, int argc, char **argv)
 		c->max_eat = ft_atoi(argv[5]);
 	if (c->max_eat < 0 && argc == 6)
 		return (EXIT_FAILURE);
-	if (c->time_to_sleep <= 0 ||
-		c->time_to_eat <= 0 ||
-		c->time_to_die <= 0)
+	if (c->time_to_sleep <= 0
+		|| c->time_to_eat <= 0
+		|| c->time_to_die <= 0)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }

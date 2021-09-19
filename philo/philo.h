@@ -6,7 +6,7 @@
 /*   By: gartaud <gartaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 10:13:35 by gartaud           #+#    #+#             */
-/*   Updated: 2021/09/16 13:41:35 by gartaud          ###   ########lyon.fr   */
+/*   Updated: 2021/09/19 16:50:11 by gartaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@
 
 # define INT32_MAX INT_MAX
 
-typedef u_int64_t	uint64_t;
+/* Uncomment for Linux compilation
+** typedef u_int64_t	uint64_t;
+*/
 
 enum e_actions
 {

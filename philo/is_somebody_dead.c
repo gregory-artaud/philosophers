@@ -1,6 +1,6 @@
 #include "philo.h"
 
-int		is_somebody_dead(t_context *c)
+int	is_somebody_dead(t_context *c)
 {
 	int	i;
 

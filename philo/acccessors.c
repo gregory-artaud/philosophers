@@ -7,7 +7,7 @@ void	set_death(t_philo *p, int value)
 	pthread_mutex_unlock(&p->death_m);
 }
 
-int		get_death(t_philo *p)
+int	get_death(t_philo *p)
 {
 	int	res;
 
@@ -24,7 +24,7 @@ void	add_eat(t_philo *p)
 	pthread_mutex_unlock(&p->eat_m);
 }
 
-int		get_eat(t_philo *p)
+int	get_eat(t_philo *p)
 {
 	int	res;
 
