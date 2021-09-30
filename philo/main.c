@@ -6,7 +6,7 @@
 /*   By: gartaud <gartaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 10:14:29 by gartaud           #+#    #+#             */
-/*   Updated: 2021/09/30 09:34:32 by gartaud          ###   ########lyon.fr   */
+/*   Updated: 2021/09/30 09:43:36 by gartaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ void	*eat_monitor(void *context)
 	int			i;
 	int			tmp;
 
-	printf("Monitor\n");
 	c = (t_context *)context;
 	while (!is_somebody_dead(c))
 	{

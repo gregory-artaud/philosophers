@@ -6,7 +6,7 @@
 /*   By: gartaud <gartaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 10:14:29 by gartaud           #+#    #+#             */
-/*   Updated: 2021/09/30 09:28:59 by gartaud          ###   ########lyon.fr   */
+/*   Updated: 2021/09/30 09:43:44 by gartaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,6 @@ void	free_context(t_context *c)
 {
 	int	i;
 
-	printf("Trying to free...\n");
 	i = -1;
 	while (++i < c->no_philo)
 	{
