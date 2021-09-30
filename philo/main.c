@@ -6,7 +6,7 @@
 /*   By: gartaud <gartaud@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 10:14:29 by gartaud           #+#    #+#             */
-/*   Updated: 2021/09/30 09:26:21 by gartaud          ###   ########lyon.fr   */
+/*   Updated: 2021/09/30 09:34:32 by gartaud          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	*eat_monitor(void *context)
 	int			i;
 	int			tmp;
 
+	printf("Monitor\n");
 	c = (t_context *)context;
 	while (!is_somebody_dead(c))
 	{
@@ -96,7 +97,7 @@ void	launch_threads(void *context)
 		pthread_create(&(c->philos[i].th), NULL, &routine, c->philos + i);
 	i = -1;
 	if (c->max_eat != -1)
-		pthread_join(c->philos[i].th, NULL);
+		pthread_join(eat_th, NULL);
 	while (++i < c->no_philo)
 		pthread_join(c->philos[i].th, NULL);
 }
